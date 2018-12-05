@@ -5,10 +5,12 @@ from PyQt5.QtWidgets  import QPushButton, QTableWidget, QWidget, QSpinBox, QVBox
 from PyQt5.QtWidgets  import QTableView, QTextBrowser, QAbstractItemView, QTableWidgetItem, QLabel, QLineEdit, QMessageBox
 from PyQt5.QtCore     import pyqtSlot
 import sys
+import time
 
 from controle 		  import *
 from enumError import enumError
 from IA  import *
+
 
 
 class MirandasWindow(QWidget):
@@ -21,8 +23,6 @@ class MirandasWindow(QWidget):
 
 		self.jogo = Jogo()
 
-		self.ia = IA(self.jogo)
-
 		#Aqui basicamente se instancia e inicia todas as partes da interface
 		self.iniciaComponentes()
 
@@ -31,6 +31,50 @@ class MirandasWindow(QWidget):
 		self.alteraContexto()
 		self.alteraContexto()
 
+		self.condicao = True
+		print("passei")
+
+		self.ia1 = IA(self.jogo)
+		self.ia2 = IA(self.jogo)
+		
+		'''
+		if(self.estilo == 0):
+			pass
+
+		elif(self.estilo == 1):
+			self.ia1 = IA(self.jogo)
+
+			iteracao = 0
+			while self.condicao == True:
+				
+				if(iteracao >= 100):
+					condicao = False
+				
+				if(self.playerAtual == 1):
+					self.clickbotao_addWord()
+				else:
+					pass
+				
+				iteracao += 1
+
+			exit()
+
+		else:
+			self.ia1 = IA(self.jogo)
+			self.ia2 = IA(self.jogo)
+
+			iteracao = 0
+			while self.condicao == True:
+				
+				if(iteracao >= 100):
+					condicao = False
+			
+				self.clickbotao_addWord()
+				iteracao += 1
+
+			exit()
+		'''
+			
 		#print(self.jogo.packletters[self.playerAtual])
 		#self.labelLetras.setText(letrasIniciais)
 
@@ -157,16 +201,41 @@ class MirandasWindow(QWidget):
 	
 		row,col,word,direcao = 0,0,'',''
 		#Caso do jogador
-		if self.playerAtual==0:
-			#Pega todos os dados digitados
+
+		#Caso de ser PVP
+		if(self.estilo == 0):
 			row=self.editRow.value()
 			col=self.editCol.value()
 			word=self.editWord.text().lower()
 			direcao=self.comboDir.currentText()
-		#Caso da IA
+
+		#Caso de ser PvsIA
+		elif(self.estilo == 1):
+			#Jogada do player
+			if self.playerAtual==0:
+				#Pega todos os dados digitados
+				row=self.editRow.value()
+				col=self.editCol.value()
+				word=self.editWord.text().lower()
+				direcao=self.comboDir.currentText()
+			#Jogada da IA
+			else:
+				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
+				#Chamar troca de letra
+
+		#Caso de ser IAvsIA
 		else:
-			row,col,word,direcao = self.ia.permutation(self.jogo.matriz,self.jogo.packletters[1])
-			print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
+			#Jogada da IA1
+			if self.playerAtual==0:
+				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
+				#Chamar troca de letra
+			#Jogada da IA2
+			else:
+				row,col,word,direcao = self.ia2.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
+				#Chamar troca de letra
 
 		#Caso a IA queira passar a vez ele mandará uma string vazia que também serve para o jogador
 		if word=='':
@@ -189,6 +258,9 @@ class MirandasWindow(QWidget):
 		self.addPonts(pontos)		
 		#Chamará a troca de contexto na interface e no backend	
 		self.passaVez()
+
+		if(self.estilo==1 or self.estilo==2):
+			self.clickbotao_addWord()
 
 
 	#Ação doo botão que trocara as letras do determinado player
