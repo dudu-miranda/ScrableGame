@@ -7,8 +7,7 @@ from tree import *
 from enumError import enumError
 
 
-class Matriz():
-
+class Jogo():
 
 	def __init__(self, *args, **kwargs):
 
@@ -650,6 +649,3 @@ class Matriz():
 			self.playerAtual = 1
 		else:
 			self.playerAtual = 0
-
-
-Matriz()

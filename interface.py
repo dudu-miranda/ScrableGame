@@ -4,9 +4,12 @@
 from PyQt5.QtWidgets  import QPushButton, QTableWidget, QWidget, QSpinBox, QVBoxLayout, QHBoxLayout, QApplication, QComboBox
 from PyQt5.QtWidgets  import QTableView, QTextBrowser, QAbstractItemView, QTableWidgetItem, QLabel, QLineEdit, QMessageBox
 from PyQt5.QtCore     import pyqtSlot
+import sys
+
 from controle 		  import *
 from enumError import enumError
-from IA  import permutation
+from IA  import *
+
 
 class MirandasWindow(QWidget):
 
@@ -14,9 +17,12 @@ class MirandasWindow(QWidget):
 
 		super().__init__()
 
-		self.jogo = Matriz()
+		self.estilo = int(sys.argv[1])
 
-		#Colocado somente para poder ser feita uma minimização para melhor visualização do código no sublime
+		self.jogo = Jogo()
+
+		self.ia = IA(self.jogo)
+
 		#Aqui basicamente se instancia e inicia todas as partes da interface
 		self.iniciaComponentes()
 
@@ -159,7 +165,7 @@ class MirandasWindow(QWidget):
 			direcao=self.comboDir.currentText()
 		#Caso da IA
 		else:
-			row,col,word,direcao = permutation(self.jogo.matriz,self.jogo.packletters[1])
+			row,col,word,direcao = self.ia.permutation(self.jogo.matriz,self.jogo.packletters[1])
 			print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
 
 		#Caso a IA queira passar a vez ele mandará uma string vazia que também serve para o jogador
