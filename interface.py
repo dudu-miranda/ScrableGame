@@ -4,6 +4,8 @@
 from PyQt5.QtWidgets  import QPushButton, QTableWidget, QWidget, QSpinBox, QVBoxLayout, QHBoxLayout, QApplication, QComboBox
 from PyQt5.QtWidgets  import QTableView, QTextBrowser, QAbstractItemView, QTableWidgetItem, QLabel, QLineEdit, QMessageBox
 from PyQt5.QtCore     import pyqtSlot
+
+import threading
 import sys
 import time
 
@@ -21,10 +23,10 @@ class MirandasWindow(QWidget):
 
 		self.estilo = int(sys.argv[1])
 
-		self.jogo = Jogo()
-
 		#Aqui basicamente se instancia e inicia todas as partes da interface
 		self.iniciaComponentes()
+
+		self.jogo = Jogo()
 
 		self.playerAtual = self.jogo.turno
 
@@ -32,48 +34,11 @@ class MirandasWindow(QWidget):
 		self.alteraContexto()
 
 		self.condicao = True
-		print("passei")
 
 		self.ia1 = IA(self.jogo)
 		self.ia2 = IA(self.jogo)
-		
-		'''
-		if(self.estilo == 0):
-			pass
 
-		elif(self.estilo == 1):
-			self.ia1 = IA(self.jogo)
-
-			iteracao = 0
-			while self.condicao == True:
-				
-				if(iteracao >= 100):
-					condicao = False
-				
-				if(self.playerAtual == 1):
-					self.clickbotao_addWord()
-				else:
-					pass
-				
-				iteracao += 1
-
-			exit()
-
-		else:
-			self.ia1 = IA(self.jogo)
-			self.ia2 = IA(self.jogo)
-
-			iteracao = 0
-			while self.condicao == True:
-				
-				if(iteracao >= 100):
-					condicao = False
-			
-				self.clickbotao_addWord()
-				iteracao += 1
-
-			exit()
-		'''
+		self.mutex = threading.Lock()	
 			
 		#print(self.jogo.packletters[self.playerAtual])
 		#self.labelLetras.setText(letrasIniciais)
@@ -143,11 +108,10 @@ class MirandasWindow(QWidget):
 		#Configuração do botão de passar a vez
 		self.botaoPassaVez = QPushButton('Passar vez')
 		self.botaoPassaVez.setToolTip('Botão para passar sua rodada')
-		self.botaoPassaVez.clicked.connect(self.clickbotao_passaVez)
+		#self.botaoPassaVez.clicked.connect(self.clickbotao_passaVez)
 
 		#Configuração dos layouts
-		main_layout = QVBoxLayout()
-		
+		main_layout = QVBoxLayout()		
 		
 		# Header
 		layout = QHBoxLayout()
@@ -193,6 +157,7 @@ class MirandasWindow(QWidget):
 
 		#Input do layout completo
 		self.setLayout(main_layout)
+		self.setGeometry(50, 50, 1220, 450)
 
 
 	#Ação do botão que adicionará uma palavra na matriz
@@ -228,7 +193,7 @@ class MirandasWindow(QWidget):
 		else:
 			#Jogada da IA1
 			if self.playerAtual==0:
-				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[0])
 				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
 				#Chamar troca de letra
 			#Jogada da IA2
@@ -259,10 +224,27 @@ class MirandasWindow(QWidget):
 		#Chamará a troca de contexto na interface e no backend	
 		self.passaVez()
 
-		if(self.estilo==1 or self.estilo==2):
-			self.clickbotao_addWord()
+		if self.mutex.acquire():	
+		
+			self.mutex.release()
+			#Caso de ser player VS IA para a IA jogar sozinha
+			if(self.estilo==1):
+				if(self.playerAtual==1):
+					self.clickbotao_addWord()
 
+			elif(self.estilo==2):
+				iteracao = 0
+				while self.condicao == True:
+				
+					if(iteracao >= 100):
+						condicao = False
+				
+					self.clickbotao_addWord()
+					iteracao += 1
 
+				exit()
+	
+		
 	#Ação doo botão que trocara as letras do determinado player
 	@pyqtSlot()
 	def clickbotao_trocaLetra(self):
@@ -313,11 +295,16 @@ class MirandasWindow(QWidget):
 
 	#Função que adiciona uma palavra na matriz
 	def inputWord(self,row,col,word,direcao):
+
+		self.mutex.acquire()
+
 		for i in range(0,len(word)):
 			if(direcao=='V'):
 				self.tabela_matriz.setItem(row+i-1,col-1,QTableWidgetItem(word[i]))
 			else:
 				self.tabela_matriz.setItem(row-1,col+i-1,QTableWidgetItem(word[i]))
+
+		self.mutex.release()
 
 
 	#Função que adiciona pontos na pontuação de determinado jogador

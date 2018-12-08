@@ -97,3 +97,16 @@ class Tree():
 			
 			if(i==len(word)-1):
 				return noAtual.final
+
+
+	#Checa a existencia parcial a partir de um nó se ele tem ligação para o char passado
+	def checkConection(self, node, char):
+
+		if (char in node.connections):
+
+			if ( node.connections[node.findIndex(char)].final ):
+				return 2
+
+			return 1
+
+		return 0

@@ -15,6 +15,9 @@ class IA(object):
 
     def permutation(self,tabul,saquinho):
 
+        
+        print(self.jogo)
+
         for i in saquinho:
             if i=='_':
                 saquinho.remove('_')
@@ -76,7 +79,7 @@ class IA(object):
                         pontos = self.calculapontos(word)
                         #verificar se é a melhor palavra
                         #e se pode entrar no tabuleiro
-                        if self.tr.checkWordExistence(word) and (len(word)>2) and (pontos > melhorpontos) and (self.jogo.checkWord(c[c.index(i)-1][0],c[c.index(i)-1][1],word,c[c.index(i)-1][2]) ):
+                        if (len(word)>2) and (pontos > melhorpontos) and self.jogo.checkWord(c[c.index(i)-1][0]+1,c[c.index(i)-1][1]+1,word,c[c.index(i)-1][2])==1:
                                 palavrafinal  = (c[c.index(i)-1],word)
                                 melhorpontos = pontos
                     aux.pop()

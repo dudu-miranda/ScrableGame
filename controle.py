@@ -48,6 +48,36 @@ class Jogo():
 		self.inicio = True
 
 
+	def __str__(self):
+		string = ''
+		string += 'Letras jogador 1: '
+		for i in self.packletters[0]:
+			string += i +' '
+		string += '\n'
+		
+		string += 'Letras jogador 2: '
+		for i in self.packletters[1]:
+			string += i +' '
+		string += '\n'
+
+		string += 'Tabuleiro: \n'
+		for linha in self.matriz:
+
+			string += '|'
+			for elem in linha:
+				
+				if len(elem)==0:
+					string+='  |'
+				elif len(elem)==1:
+					string += ' ' + elem + '|'
+				else:
+					string += elem + '|'
+
+			string += '\n'
+
+		return string
+
+
 	#Função que monta o tabuleiro do jogo
 	def montaTabuleiro(self):
 
