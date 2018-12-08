@@ -8,6 +8,8 @@ from PyQt5.QtCore     import pyqtSlot
 import threading
 import sys
 import time
+import cProfile as profile
+import pstats
 
 from controle 		  import *
 from enumError import enumError
@@ -20,6 +22,9 @@ class MirandasWindow(QWidget):
 	def __init__(self, *args, **kwargs):
 
 		super().__init__()
+
+		self.p = profile.Profile()
+		self.p.enable()
 
 		self.estilo = int(sys.argv[1])
 
@@ -34,11 +39,10 @@ class MirandasWindow(QWidget):
 		self.alteraContexto()
 
 		self.condicao = True
+		self.contador = 0
 
 		self.ia1 = IA(self.jogo)
 		self.ia2 = IA(self.jogo)
-
-		self.mutex = threading.Lock()	
 			
 		#print(self.jogo.packletters[self.playerAtual])
 		#self.labelLetras.setText(letrasIniciais)
@@ -164,6 +168,11 @@ class MirandasWindow(QWidget):
 	@pyqtSlot()
 	def clickbotao_addWord(self):
 	
+		if(self.contador >= 14):
+			self.p.disable()
+			pstats.Stats(self.p).sort_stats('cumulative').print_stats(30)
+			exit()
+
 		row,col,word,direcao = 0,0,'',''
 		#Caso do jogador
 
@@ -204,7 +213,15 @@ class MirandasWindow(QWidget):
 
 		#Caso a IA queira passar a vez ele mandará uma string vazia que também serve para o jogador
 		if word=='':
-			self.passaVez()
+			if(self.estilo == 2):
+				self.clickbotao_trocaLetra(self.jogo.packletters[self.jogo.playerAtual])
+
+			elif(self.estilo == 1 and self.playerAtual == 1):
+				self.clickbotao_trocaLetra(self.jogo.packletters[1])
+
+			else:
+				self.passaVez()
+			
 			return 1
 
 		#Faz a checagem de erros
@@ -223,34 +240,23 @@ class MirandasWindow(QWidget):
 		self.addPonts(pontos)		
 		#Chamará a troca de contexto na interface e no backend	
 		self.passaVez()
+		self.contador +=1
 
-		if self.mutex.acquire():	
-		
-			self.mutex.release()
-			#Caso de ser player VS IA para a IA jogar sozinha
-			if(self.estilo==1):
-				if(self.playerAtual==1):
-					self.clickbotao_addWord()
+		#Caso de ser player VS IA para a IA jogar sozinha
+		if(self.estilo==1):
+			if(self.playerAtual==1):
+				self.clickbotao_addWord()
 
-			elif(self.estilo==2):
-				iteracao = 0
-				while self.condicao == True:
-				
-					if(iteracao >= 100):
-						condicao = False
-				
-					self.clickbotao_addWord()
-					iteracao += 1
-
-				exit()
 	
 		
 	#Ação doo botão que trocara as letras do determinado player
 	@pyqtSlot()
-	def clickbotao_trocaLetra(self):
+	def clickbotao_trocaLetra(self, letrasAntigas=[]):
 
-		#Pega as letras do edit, da um split para que se transforme em uma lista
-		letrasAntigas = self.editTroca.text().split(',')
+		if( (self.estilo == 0) or (self.playerAtual==0 and self.estilo == 1) ):
+			#Pega as letras do edit, da um split para que se transforme em uma lista
+			letrasAntigas = self.editTroca.text().split(',')
+		
 		#Chama a função de trocar letras
 		listaNovasLetras = self.jogo.exchangeLetters(letrasAntigas)
 
@@ -296,15 +302,11 @@ class MirandasWindow(QWidget):
 	#Função que adiciona uma palavra na matriz
 	def inputWord(self,row,col,word,direcao):
 
-		self.mutex.acquire()
-
 		for i in range(0,len(word)):
 			if(direcao=='V'):
 				self.tabela_matriz.setItem(row+i-1,col-1,QTableWidgetItem(word[i]))
 			else:
 				self.tabela_matriz.setItem(row-1,col+i-1,QTableWidgetItem(word[i]))
-
-		self.mutex.release()
 
 
 	#Função que adiciona pontos na pontuação de determinado jogador

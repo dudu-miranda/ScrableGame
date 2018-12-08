@@ -613,52 +613,27 @@ class Jogo():
 		#Caso da quantidade de letras a serem trocadas ser maior que a quantidade de letras disponíveis no saquinho
 		if(len(letters) > len(self.lettersPack)):
 			return enumError.er_exchBiggerPack
-		
-		#Tratamento do player 1
-		if(player == 0):
 
-			#Faz a interseção do pacote de letras do player referente, com as letras que o player deseja trocar
-			intercesao = list(set([i for i in self.packletters[0] if i in letters]))
+		#Inicia uma lista temporaria com nada
+		temp = []
+		print(letters)
+		print(self.packletters[player])
+		#Itera todas as letras que o usuario deseja trocar
+		for el in letters:
+			#Caso a letra esteja presente no saquinho de letras do player atual retira ela da lista e coloca na temporaria
+			if el in self.packletters[player]:
+				temp.append(self.packletters[player].pop(self.packletters[player].index(el)))
+			#Caso nao esteja retorna erro de letra nao encontrada
+			else:
+				return enumError.er_exchLetterNotFound	
 
-			#Caso da interseção acima de um tamanho menor que o conjunto passado significa que tem alguma letra que o player não possui e deseja trocar
-			if(len(letters)>len(intercesao)):
-				return enumError.er_exchLetterNotFound
+		for i in range(0,len(letters)):
+			self.packletters[player].append(self.lettersPack.pop())
 
-			#Retira os elementos da pacote do jogador 1
-			lTemp = []
-			for el in letters:
-				lTemp = self.packletters[0].pop(self.packletters[0].index(el))
+		self.lettersPack.extend(temp)
+		random.shuffle(self.lettersPack)
 
-			for i in range(0,len(letters)):
-				self.packletters[0].append(self.lettersPack.pop())
-
-			self.lettersPack.extend(lTemp)
-			random.shuffle(self.lettersPack)
-
-			return self.packletters[0]
-
-		#Tratamento do player 2
-		else:
-
-			#Faz a interseção do pacote de letras do player referente, com as letras que o player deseja trocar
-			intercesao = list(set([i for i in self.packletters[1] if i in letters]))
-
-			#Caso da interseção acima de um tamanho menor que o conjunto passado significa que tem alguma letra que o player não possui e deseja trocar
-			if(len(letters)>len(intercesao)):
-				return enumError.er_exchLetterNotFound
-
-			#Retira os elementos da pacote do jogador 2
-			lTemp = []
-			for el in letters:
-				lTemp = self.packletters[1].pop(self.packletters[1].index(el))
-
-			for i in range(0,len(letters)):
-				self.packletters[1].append(self.lettersPack.pop())
-
-			self.lettersPack.extend(lTemp)
-			random.shuffle(self.lettersPack)
-
-			return self.packletters[1]
+		return self.packletters[player]
 
 
 	#Função que incrementará a quantidade de pontos de um determinado player

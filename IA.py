@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import os
+
 from itertools  import permutations as permut
 from tree       import *
 from controle   import *
@@ -11,11 +13,14 @@ class IA(object):
         
         self.jogo = jogo
         self.tr = jogo.dicionario
+        self.valores={'a':1,'b':3,'c':2,'d':2,'e':1,'f':4,'g':4,'h':4,'i':1,'j':5,'l':2,
+        'm':1,'n':3,'o':1,'p':2,'q':6,'r':1,'s':1,'t':1,'u':1,'v':4,'x':8,
+        'z':8,'ç':3,'_':0}
         
 
     def permutation(self,tabul,saquinho):
 
-        
+        #os.system('clear')  # on linux / os x
         print(self.jogo)
 
         for i in saquinho:
@@ -164,11 +169,8 @@ class IA(object):
         return(palavras)
 
     def calculapontos(self,str):
-        valores={'a':1,'b':3,'c':2,'d':2,'e':1,'f':4,'g':4,'h':4,'i':1,'j':5,'l':2,
-              'm':1,'n':3,'o':1,'p':2,'q':6,'r':1,'s':1,'t':1,'u':1,'v':4,'x':8,
-              'z':8,'ç':3,'_':0}
         pontos = 0
         for i in str:
-            pontos += valores[i]
+            pontos += self.valores[i]
 
         return pontos
