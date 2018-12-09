@@ -1,0 +1,37 @@
+357504254 function calls (357502963 primitive calls) in 482.243 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1093 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1  118.477  118.477  474.475  474.475 {built-in method exec_}
+       40    0.001    0.000  355.838    8.896 interface.py:168(clickbotao_addWord)
+       39  137.663    3.530  355.821    9.124 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/IA.py:21(permutation)
+ 27353385   25.515    0.000  109.212    0.000 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/controle.py:145(checkWord)
+ 22849627   65.343    0.000   80.656    0.000 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/tree.py:56(checkWordExistence)
+ 82060693   65.577    0.000   65.577    0.000 {method 'index' of 'list' objects}
+ 28846503   39.984    0.000   39.984    0.000 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/IA.py:176(calculapontos)
+124118911/124118838   13.462    0.000   13.462    0.000 {built-in method builtins.len}
+ 66837700    8.329    0.000    8.329    0.000 {method 'keys' of 'dict' objects}
+        1    0.000    0.000    7.706    7.706 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/controle.py:12(__init__)
+        1    6.661    6.661    7.706    7.706 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/tree.py:15(montaTree)
+  3992939    0.434    0.000    0.434    0.000 {method 'values' of 'dict' objects}
+   637154    0.301    0.000    0.301    0.000 /home/odraude/Documentos/PAA/TrabPAA(PvIA)/node.py:7(__init__)
+   637274    0.189    0.000    0.189    0.000 {method 'update' of 'dict' objects}
+       14    0.001    0.000    0.161    0.012 /usr/lib/python3/dist-packages/apport_python_hook.py:34(apport_excepthook)
+   127/16    0.001    0.000    0.147    0.009 <frozen importlib._bootstrap>:966(_find_and_load)
+   127/16    0.001    0.000    0.146    0.009 <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+    143/2    0.000    0.000    0.141    0.071 <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+     19/1    0.000    0.000    0.141    0.141 {built-in method builtins.__import__}
+    107/2    0.001    0.000    0.141    0.071 <frozen importlib._bootstrap>:651(_load_unlocked)
+     90/2    0.000    0.000    0.141    0.071 <frozen importlib._bootstrap_external>:672(exec_module)
+     98/2    0.005    0.000    0.141    0.070 {built-in method builtins.exec}
+        1    0.000    0.000    0.141    0.141 /usr/lib/python3/dist-packages/apport/__init__.py:1(<module>)
+        1    0.000    0.000    0.140    0.140 /usr/lib/python3/dist-packages/apport/report.py:1(<module>)
+        1    0.000    0.000    0.053    0.053 /usr/lib/python3.6/urllib/request.py:68(<module>)
+        1    0.000    0.000    0.050    0.050 /usr/lib/python3/dist-packages/apport/fileutils.py:1(<module>)
+        1    0.000    0.000    0.044    0.044 /usr/lib/python3.6/http/client.py:69(<module>)
+        1    0.000    0.000    0.043    0.043 /usr/lib/python3/dist-packages/apport/packaging_impl.py:4(<module>)
+        1    0.032    0.032    0.043    0.043 interface.py:52(iniciaComponentes)
+  486/485    0.013    0.000    0.041    0.000 {built-in method builtins.__build_class__}
+

@@ -9,6 +9,7 @@ from enumError import enumError
 
 class Jogo():
 
+	#Função para iniciar o modulo de controle do jogo
 	def __init__(self, *args, **kwargs):
 
 		#Dicionário e funcoes de checagem
@@ -47,7 +48,11 @@ class Jogo():
 		#Variavel que dirá se o jogo está no inicio que consequentemente a palavra tem que passar no meio do mapa
 		self.inicio = True
 
+		#Dicionario que conterá as palavras que ja estão no tabuleiro
+		self.palavras = {}
 
+
+	#Função que retorna de forma humana dados basicos do jogo
 	def __str__(self):
 		string = ''
 		string += 'Letras jogador 1: '
@@ -534,6 +539,29 @@ class Jogo():
 			return 0
 
 
+	def inputWord2(self,line,col,word,direcao):
+
+		for i in range(0,len(word)):
+			if(direcao=='V'):
+				#self.matriz[line+i-1][col-1] = word[i]
+
+				#Caso da letra a ser adicionada ja esta na matriz				
+				if self.matriz[line+i-1][col-1]==word[i]:
+					pass
+
+				self.matriz[line+i-1][col-1] = word[i]
+
+			else:
+				#self.matriz[line-1][col+i-1] = word[i]
+				#Caso a letra a ser adicionada ja esta na matriz
+				if self.matriz[line-1][col+i-1]==word[i]:
+					pass
+			
+				self.matriz[line-1][col-1+i] = word[i]
+
+		self.palavras[(line-1, col-1, direcao)] = word
+
+
 	#Função que fará o adicionamento da palavra no tabuleiro além de calcular os pontos
 	def inputWord(self,line,col,word,direcao):
 
@@ -589,6 +617,7 @@ class Jogo():
 			pontos += self.calculaPtsAtual(word[i])	
 
 		self.atualizaSaquinho()
+		self.palavras[(line-1, col-1, direcao)] = word
 
 		return pontos,palavraFinal
 
@@ -596,16 +625,12 @@ class Jogo():
 	#Função que completa as 7 letras do saquinho após colocar uma palavra no tabuleiro
 	def atualizaSaquinho(self):
 
-		qtd = 7-len(self.packletters[self.playerAtual])
-
-		for i in range(0,qtd):
+		while len(self.packletters[self.playerAtual])<7 and self.lettersPack:
 			self.packletters[self.playerAtual].append(self.lettersPack.pop())
 
 
 	#Função que fará a troca das letras dos jogadores
 	def exchangeLetters(self,letters):
-
-		player = self.playerAtual
 
 		if(len(letters)>7):
 			return enumError.er_exchBigger7
@@ -616,24 +641,22 @@ class Jogo():
 
 		#Inicia uma lista temporaria com nada
 		temp = []
-		print(letters)
-		print(self.packletters[player])
 		#Itera todas as letras que o usuario deseja trocar
 		for el in letters:
 			#Caso a letra esteja presente no saquinho de letras do player atual retira ela da lista e coloca na temporaria
-			if el in self.packletters[player]:
-				temp.append(self.packletters[player].pop(self.packletters[player].index(el)))
+			if el in self.packletters[self.playerAtual]:
+				temp.append(self.packletters[self.playerAtual].pop(self.packletters[self.playerAtual].index(el)))
 			#Caso nao esteja retorna erro de letra nao encontrada
 			else:
+				self.packletters.extend(temp)
 				return enumError.er_exchLetterNotFound	
 
-		for i in range(0,len(letters)):
-			self.packletters[player].append(self.lettersPack.pop())
+		self.atualizaSaquinho()
 
 		self.lettersPack.extend(temp)
 		random.shuffle(self.lettersPack)
 
-		return self.packletters[player]
+		return self.packletters[self.playerAtual]
 
 
 	#Função que incrementará a quantidade de pontos de um determinado player

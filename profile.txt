@@ -1,6 +1,17 @@
    Ordered by: cumulative time
    List reduced from 154 to 30 due to restriction <30>
 
+
+
+    ncalls for the number of calls,
+    tottime for the total time spent in the given function (and excluding time made in calls to sub-functions),
+    percall is the quotient of tottime divided by ncalls
+    cumtime is the total time spent in this and all subfunctions (from invocation till exit). This figure is accurate even for recursive functions.
+
+    percall is the quotient of cumtime divided by primitive calls
+
+
+
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
         1   54.230   54.230  240.964  240.964 {built-in method exec_}
        20    0.001    0.000  186.734    9.337 interface.py:168(clickbotao_addWord)

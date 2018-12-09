@@ -22,12 +22,13 @@ class IA(object):
 
         #os.system('clear')  # on linux / os x
         print(self.jogo)
-
+        c = self.getreadwords(self.jogo.matriz)
+        print(c)
+        
         for i in saquinho:
             if i=='_':
                 saquinho.remove('_')
-        c = self.getreadwords(self.jogo.matriz)
-
+        #c=[("str", "D" ,X ,Y ,ec ,bd )]
         # Caso de Start
         if len(c)==0:
             c.append((7,7,'H'))
@@ -110,63 +111,185 @@ class IA(object):
 
 
 
+    #Função que gera uma tupla caso seja possivel com (Word,Dir,lin,col,espaço1,espaço2)
+    def geraTupla(self,lin,col,word,direcao,tabul):
+        
+        l = []
+        rec = 0
+        rbd = 0
+        #Caso da palavra estar na horizontal
+        if direcao=='H':            
+
+            i=col+len(word)-1
+
+            #Caso de estar colado na parede a direita
+            if col==0:
+
+                #Caso de estar colado na parede a direita e na parte superior
+                if lin==0:
+
+                    while i<14 and len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+                #Caso de estar colado na parede a direita e na parte inferior
+                elif lin ==14:
+
+                    while i<14 and len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+                #Caso de estar colado na parede a direita e em qualquer outra parte do mapa das linhas
+                else:
+
+                    while i<14 and len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+            #Caso de estar em qualquer parte do mapa em colunas
+            else:
+
+                #Em qualquer coluna do mapa e na parte superior
+                if lin==0:
+                    
+                    while i<14 and len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+                    i=col
+
+                    while i!=0 and len(tabul[0][i-1])!=1 and len(tabul[1][i-1])!=1:
+                        i -= 1
+                        rec += 1
+
+                #Em qualquer coluna do mapa e na parte inferior
+                elif lin ==14:
+
+                    while i<14 and len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+                    i = col
+
+                    while i!=0 and len(tabul[14][i-1])!=1 and len(tabul[13][i-1])!=1:
+                        i -= 1
+                        rec += 1
+
+                #Em qualquer coluna do mapa e em qualquer outra parte do mapa das linhas
+                else:
+
+                    while i<14 and len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1:
+                        i += 1
+                        rbd += 1
+
+                    i = col
+
+                    while i!=0 and len(tabul[lin][i-1])!=1 and len(tabul[lin+1][i-1])!=1 and len(tabul[lin-1][i-1])!=1:
+                        i -= 1
+                        rec += 1
+
+
+        #Caso a direção seja na vertical
+        else:
+
+            i=lin+len(word)-1
+            #Caso esteja no topo do mapa
+            if lin==0:
+
+                #Caso esteja no topo do mapa e no canto esquerdo do mesmo
+                if col==0:
+                    while i<14 and len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1 :
+                        i+=1
+                        rbd+=1
+
+                #Caso esteja no topo do mapa e no canto direito do mesmo
+                elif col==14:
+                    while i<14 and len(tabul[i+1][14])!=1 and len(tabul[i+1][13])!=1:
+                        i+=1
+                        rbd+=1
+
+
+                #Caso esteja no topo do mapa e em qualquer coluna do mapa
+                else:
+                    while i<14 and len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1:
+                        i+=1
+                        rbd+=1
+
+
+            #Caso esteja em qualquer linha do mapa
+            else:
+
+                #Caso esteja em qualquer linha do mapa e no canto esquerdo do mesmo
+                if col==0:
+                    while i<14 and len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1:
+                        i+=1
+                        rbd+=1
+
+                    i = lin
+                    while i!=0 and len(tabul[i-1][0])!=1 and len(tabul[i-1][1])!=1:
+                        i-=1
+                        rec+=1
+
+
+                #Caso esteja em qualquer linha do mapa e no canto direito do mesmo
+                elif col==14:
+                    while i<14 and len(tabul[i+1][13])!=1 and len(tabul[i+1][14])!=1:
+                        i+=1
+                        rbd+=1
+
+                    i = lin
+                    while i!=0 and len(tabul[i-1][13])!=1 and len(tabul[i-1][14])!=1:
+                        i-=1
+                        rec+=1
+
+                #Caso esteja em qualquer linha do mapa e em qualquer coluna do mapa
+                else:
+                    while i<14 and len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1:
+                        i+=1
+                        rbd+=1
+
+                    i=lin
+                    while i!=0 and len(tabul[i-1][col])!=1 and len(tabul[i-1][col-1])!=1 and len(tabul[i-1][col+1])!=1:
+                        i-=1
+                        rec+=1
+
+
+        if rec==0 and rbd==0:
+            pass
+        else:
+            if rec > 7:
+                rec = 7
+            if rbd >7:
+                rbd = 7
+
+            l.append((word,direcao,lin,col,rec,rbd))
+
+        return l
+
+
     def getreadwords(self, tabul):
-        letras = []
-        palavras = []
-        #pega todas as palavras do tabuleiro
-        for l in range(len(tabul)):
-            for c in range(len(tabul[l])):
-                if len(tabul[l][c]) == 1:
-                    letras.append((tabul[l][c],l,c))
+        
+        #if(self.jogo.inicio):
+        #    return [('','H',7,7,7,7)]
 
-        cont  = 0
-        aux   = ''
-        linha = letras[cont][1]
-        letras.append(('',-1,-1))
+        saida = []
 
-        while((len(letras)-1)>cont):
-            if linha != letras[cont][1]:
-                linha = letras[cont][1]
-                if len(aux)>1:
-                    palavras.append(aux)
-                    aux = ''
+        #c=[("str", "D" ,X ,Y ,ec ,bd )]
+        #Itera todas as palavras do jogo
+        print(self.jogo.palavras)
+        for lin, col, direcao  in  self.jogo.palavras:
+            
+            word = self.jogo.palavras[(lin, col, direcao)]
+            saida.extend(self.geraTupla(lin,col,word,direcao,tabul))
 
-            if ((letras[cont][1] == letras[cont+1][1]) and (letras[cont][2] == letras[cont+1][2]-1)) or ((letras[cont][1] != letras[cont+1][1]) and (letras[cont][2] == letras[cont-1][2]+1)) :
-                if (len(aux)==0):
-                    palavras.append((letras[cont][1],letras[cont][2],'H'))
-                aux += letras[cont][0]
+            for i in range(len(word)):
+                if(direcao=='H'):
+                    saida.extend(self.geraTupla(lin,col+i,word[i],'V',tabul))
+                else:
+                    saida.extend(self.geraTupla(lin+i,col,word[i],'H',tabul))            
+        
+        return saida
 
-            cont += 1
-        if len(aux)>1:
-            palavras.append(aux)
-
-        letras = []
-        for i in range(len(tabul)):
-            for j in range(len(tabul[i])):
-                if len(tabul[j][i])==1:
-                    letras.append((tabul[j][i],j,i))
-
-        letras.append(('',-1,-1))
-        cont   = 0
-        aux    = ''
-        coluna = letras[cont][2]
-        while((len(letras)-1)>cont):
-            if coluna != letras[cont][2]:
-                coluna = letras[cont][2]
-                if len(aux)>1:
-                    palavras.append(aux)
-                    aux = ''
-
-            if ((letras[cont][2] == letras[cont+1][2]) and (letras[cont][1] == letras[cont+1][1]-1)) or ((letras[cont][2] != letras[cont+1][2]) and (letras[cont][1] == letras[cont-1][1]+1)):
-                if (len(aux)==0):
-                    palavras.append((letras[cont][1],letras[cont][2],'V'))
-                aux += letras[cont][0]
-
-            cont += 1
-        if len(aux)>1:
-            palavras.append(aux)
-        letras.pop()
-        return(palavras)
 
     def calculapontos(self,str):
         pontos = 0
@@ -174,3 +297,15 @@ class IA(object):
             pontos += self.valores[i]
 
         return pontos
+
+
+
+ia = IA(Jogo())
+
+ia.jogo.inputWord2(2,7,'zalavra','H')
+ia.jogo.inputWord2(1,7,'azul','V')
+ia.jogo.matriz[7][7] = '  '
+
+print(ia.jogo)
+
+print(ia.getreadwords(ia.jogo.matriz))

@@ -6,34 +6,8 @@ from node import Node
 
 class Tree():
 
-
-	def __init__(self):
-		
-
+	def __init__(self):	
 		self.raiz = Node(False,' ')
-
-		#self.montaTree(nomeArquivo)
-		'''
-		print(self.raiz)
-		atual=self.raiz.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		atual=atual.connections[0]
-		print(atual)
-		l1=self.checkWordExistence('babaremos')
-		l2=self.checkWordExistence('babadasso')
-		l3=self.checkWordExistence('aburpat')
-		print(str(l1)+str(l2)+str(l3))
-		'''
 
 
 	def montaTree(self,nomeArquivo):
@@ -47,16 +21,15 @@ class Tree():
 			noAtual = self.raiz
 			#Itera as letras da palavra
 			for i in range(0,len(palavra)-1):
-				letra=palavra[i]
+
+				letra = palavra[i]
 				#print(palavra + '  -  '+letra)
 				#Itera as conexões do nó atual
 				existe = False
-				for conexao in noAtual.connections:		
-					#Verifica a existência de um nó da árvore
-					if(letra==conexao.letra):
-						noAtual = noAtual.connections[noAtual.findIndex(letra)]
-						existe = True
-						break
+
+				if letra in noAtual.connections.keys():
+					noAtual = noAtual.connections[letra]
+					existe = True
 
 				#print(noAtual)
 				#Caso a letra atual não tenha um nó só pra ela
@@ -64,11 +37,13 @@ class Tree():
 
 					#Caso de ser a ultima letra da palavra
 					#Palavra[-2] pois o ultimo caractere de uma palavra do dicionário é sempre um \n
+
+					#self.__tabelasimbolo[bloco].update({chave: tipo})
 					if(i==len(palavra)-2):
-						noAtual.connections.append(Node(True,letra))
+						noAtual.connections.update({letra: Node(True,letra)})
 					else:
-						noAtual.connections.append(Node(False,letra))
-						noAtual = noAtual.connections[noAtual.findIndex(letra)]
+						noAtual.connections.update({letra: Node(False,letra)})
+						noAtual = noAtual.connections[letra]
 															
 
 		Arq.close()
@@ -84,12 +59,10 @@ class Tree():
 
 			#Itera as conexões do nó atual
 			existe = False
-			for conexao in noAtual.connections:		
-				#Verifica a existência de um nó da árvore
-				if(letra==conexao.letra):
-					noAtual = noAtual.connections[noAtual.findIndex(letra)]
-					existe = True
-					break
+			
+			if letra in noAtual.connections.keys():
+				noAtual = noAtual.connections[letra]
+				existe = True
 
 			#Caso da palavra digitada não existir na árvore
 			if(not existe):
@@ -98,15 +71,3 @@ class Tree():
 			if(i==len(word)-1):
 				return noAtual.final
 
-
-	#Checa a existencia parcial a partir de um nó se ele tem ligação para o char passado
-	def checkConection(self, node, char):
-
-		if (char in node.connections):
-
-			if ( node.connections[node.findIndex(char)].final ):
-				return 2
-
-			return 1
-
-		return 0

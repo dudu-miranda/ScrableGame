@@ -168,7 +168,7 @@ class MirandasWindow(QWidget):
 	@pyqtSlot()
 	def clickbotao_addWord(self):
 	
-		if(self.contador >= 14):
+		if(self.contador > 9):
 			self.p.disable()
 			pstats.Stats(self.p).sort_stats('cumulative').print_stats(30)
 			exit()
@@ -248,7 +248,6 @@ class MirandasWindow(QWidget):
 				self.clickbotao_addWord()
 
 	
-		
 	#Ação doo botão que trocara as letras do determinado player
 	@pyqtSlot()
 	def clickbotao_trocaLetra(self, letrasAntigas=[]):
