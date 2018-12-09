@@ -125,68 +125,117 @@ class IA(object):
             #Caso de estar colado na parede a direita
             if col==0:
 
+                if len(tabul[lin][i+1])==1:
+                        return []
+
                 #Caso de estar colado na parede a direita e na parte superior
                 if lin==0:
 
-                    while i<14 and len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1:
+                    while i<13 and (len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1 and
+                                    len(tabul[0][i+2])!=1):
                         i += 1
+                        rbd += 1
+
+                    if i==13 and len(tabul[0][14])!=1:
                         rbd += 1
 
                 #Caso de estar colado na parede a direita e na parte inferior
                 elif lin ==14:
 
-                    while i<14 and len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1:
+                    while i<13 and (len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1 and
+                                    len(tabul[14][i+2])!=1):
                         i += 1
                         rbd += 1
+
+                    #A mais
+                    if i==13 and len(tabul[14][14])!=1:
+                        rbd+=1
 
                 #Caso de estar colado na parede a direita e em qualquer outra parte do mapa das linhas
                 else:
 
-                    while i<14 and len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1:
+                    while i<13 and (len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1 and
+                                    len(tabul[lin][i+2])!=1):
                         i += 1
+                        rbd += 1
+
+                    if i==13 and len(tabul[lin][14])!=1:
                         rbd += 1
 
             #Caso de estar em qualquer parte do mapa em colunas
             else:
 
+                if 14==i:
+                    if len(tabul[lin][col-1])==1:
+                        return []
+                else:
+                    if len(tabul[lin][col-1])==1 or len(tabul[lin][i+1])==1:
+                        return []
+
+
                 #Em qualquer coluna do mapa e na parte superior
                 if lin==0:
                     
-                    while i<14 and len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1:
+                    while i<13 and (len(tabul[0][i+1])!=1 and len(tabul[1][i+1])!=1 and
+                                    len(tabul[0][i+2])!=1):
                         i += 1
                         rbd += 1
 
+                    if i==13 and len(tabul[0][14])!=1:
+                        rbd+=1
+
                     i=col
 
-                    while i!=0 and len(tabul[0][i-1])!=1 and len(tabul[1][i-1])!=1:
+                    while i!=1 and (len(tabul[0][i-1])!=1 and len(tabul[1][i-1])!=1 and
+                                    len(tabul[0][i-2])!=1):
                         i -= 1
                         rec += 1
+
+                    if i==1 and len(tabul[0][0])!=1:
+                        rec +=1
 
                 #Em qualquer coluna do mapa e na parte inferior
                 elif lin ==14:
 
-                    while i<14 and len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1:
+                    while i<13 and (len(tabul[14][i+1])!=1 and len(tabul[13][i+1])!=1 and
+                                    len(tabul[14][i+2])!=1):
                         i += 1
                         rbd += 1
 
+                    if i==13 and len(tabul[14][14])!=1:
+                        rbd+=1
+
                     i = col
 
-                    while i!=0 and len(tabul[14][i-1])!=1 and len(tabul[13][i-1])!=1:
+                    while i!=1 and (len(tabul[14][i-1])!=1 and len(tabul[13][i-1])!=1 and
+                                    len(tabul[14][i-2])!=1):
                         i -= 1
                         rec += 1
+
+                    if i==1 and len(tabul[14][0])!=1:
+                        pass
 
                 #Em qualquer coluna do mapa e em qualquer outra parte do mapa das linhas
                 else:
 
-                    while i<14 and len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1:
+                    while i<13 and (len(tabul[lin][i+1])!=1 and len(tabul[lin+1][i+1])!=1 and len(tabul[lin-1][i+1])!=1 and
+                                    len(tabul[lin][i+2])!=1):
                         i += 1
                         rbd += 1
 
+                    #a mais q precisa
+                    if i==13 and len(tabul[lin][i+1])!=1:
+                        rbd +=1
+
                     i = col
 
-                    while i!=0 and len(tabul[lin][i-1])!=1 and len(tabul[lin+1][i-1])!=1 and len(tabul[lin-1][i-1])!=1:
+                    while i!=1 and (len(tabul[lin][i-1])!=1 and len(tabul[lin+1][i-1])!=1 and len(tabul[lin-1][i-1])!=1 and
+                                    len(tabul[lin][i-2])!=1):
                         i -= 1
                         rec += 1
+
+                    if i==1 and len(tabul[lin][0])!=1:
+                        rec+=1
 
 
         #Caso a direção seja na vertical
@@ -196,63 +245,120 @@ class IA(object):
             #Caso esteja no topo do mapa
             if lin==0:
 
+                if len(tabul[i+1][col])==1:
+                    return []
+
                 #Caso esteja no topo do mapa e no canto esquerdo do mesmo
                 if col==0:
-                    while i<14 and len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1 :
+                    while i<13 and (len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1 and
+                                    len(tabul[i+2][0])!=1):
                         i+=1
+                        rbd+=1
+
+                    if i==13 and len(tabul[14][0])!=1:
                         rbd+=1
 
                 #Caso esteja no topo do mapa e no canto direito do mesmo
                 elif col==14:
-                    while i<14 and len(tabul[i+1][14])!=1 and len(tabul[i+1][13])!=1:
+                    while i<13 and (len(tabul[i+1][14])!=1 and len(tabul[i+1][13])!=1 and
+                                    len(tabul[i+2][14])!=1):
                         i+=1
+                        rbd+=1
+
+                    if i==13 and len(tabul[14][14])!=1:
                         rbd+=1
 
 
                 #Caso esteja no topo do mapa e em qualquer coluna do mapa
                 else:
-                    while i<14 and len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1:
+                    while i<13 and (len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1 and
+                                    len(tabul[i+2][col])!=1 ):
                         i+=1
+                        rbd+=1
+
+                    if i==13 and len(tabul[14][col])!=1:
                         rbd+=1
 
 
             #Caso esteja em qualquer linha do mapa
             else:
 
+                if i==14:
+                    if len(tabul[lin-1][col])==1:
+                        return []
+                else:
+                    if len(tabul[lin-1][col])==1 or len(tabul[i+1][col])==1:
+                        return []
+
                 #Caso esteja em qualquer linha do mapa e no canto esquerdo do mesmo
                 if col==0:
-                    while i<14 and len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1:
+                    while i<13 and (len(tabul[i+1][0])!=1 and len(tabul[i+1][1])!=1 and
+                                    len(tabul[i+2][0])!=1):
                         i+=1
                         rbd+=1
 
+                    if i==13 and len(tabul[14][0])!=1:
+                        rbd+=1
+
                     i = lin
-                    while i!=0 and len(tabul[i-1][0])!=1 and len(tabul[i-1][1])!=1:
+                    while i!=1 and (len(tabul[i-1][0])!=1 and len(tabul[i-1][1])!=1 and
+                                    len(tabul[i-2][0])!=1):
                         i-=1
+                        rec+=1
+
+                    if i==1 and len(tabul[0][0])!=1:
                         rec+=1
 
 
                 #Caso esteja em qualquer linha do mapa e no canto direito do mesmo
                 elif col==14:
-                    while i<14 and len(tabul[i+1][13])!=1 and len(tabul[i+1][14])!=1:
+                    while i<13 and (len(tabul[i+1][14])!=1 and len(tabul[i+1][13])!=1 and
+                                    len(tabul[i+2][14])!=1):
                         i+=1
                         rbd+=1
 
+                    if i==13 and len(tabul[14][14])!=1:
+                        rbd+=1
+
                     i = lin
-                    while i!=0 and len(tabul[i-1][13])!=1 and len(tabul[i-1][14])!=1:
+                    while i!=1 and (len(tabul[i-1][13])!=1 and len(tabul[i-1][14])!=1 and
+                                    len(tabul[i-2][14])!=1):
                         i-=1
+                        rec+=1
+
+                    if i==1 and len(tabul[0][14])!=1:
                         rec+=1
 
                 #Caso esteja em qualquer linha do mapa e em qualquer coluna do mapa
                 else:
-                    while i<14 and len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1:
+                    while i<13 and (len(tabul[i+1][col])!=1 and len(tabul[i+1][col-1])!=1 and len(tabul[i+1][col+1])!=1 and
+                                    len(tabul[i+2][col])!=1):
                         i+=1
                         rbd+=1
 
+                    if i==13 and len(tabul[14][col])!=1:
+                        rbd+=1
+
                     i=lin
-                    while i!=0 and len(tabul[i-1][col])!=1 and len(tabul[i-1][col-1])!=1 and len(tabul[i-1][col+1])!=1:
+                    while i!=1 and (len(tabul[i-1][col])!=1 and len(tabul[i-1][col-1])!=1 and len(tabul[i-1][col+1])!=1 and 
+                                    len(tabul[i-2][col])!=1):
                         i-=1
                         rec+=1
 
+                    if i==1 and len(tabul[0][col])!=1:
+                        rec+=1
+
+
+        #Minimizador de permutações
+        '''
+        if len(word)==1 :
+            if rec<=1 and rbd<=1:
+                return []
+            elif rec<=1:
+                rec = 0
+            elif rbd<=1:
+                rbd = 0
+        '''
 
         if rec==0 and rbd==0:
             pass
@@ -276,7 +382,7 @@ class IA(object):
 
         #c=[("str", "D" ,X ,Y ,ec ,bd )]
         #Itera todas as palavras do jogo
-        print(self.jogo.palavras)
+        #print(self.jogo.palavras)
         for lin, col, direcao  in  self.jogo.palavras:
             
             word = self.jogo.palavras[(lin, col, direcao)]
@@ -302,9 +408,12 @@ class IA(object):
 
 ia = IA(Jogo())
 
-ia.jogo.inputWord2(2,7,'zalavra','H')
-ia.jogo.inputWord2(1,7,'azul','V')
 ia.jogo.matriz[7][7] = '  '
+ia.jogo.inputWord2(5,4,'aalavra','H')
+ia.jogo.inputWord2(5,4,'azull','V')
+ia.jogo.inputWord2(5,7,'avess','V')
+ia.jogo.inputWord2(9,4,'lassada','H')
+ia.jogo.inputWord2(5,13,'pedra','V')
 
 print(ia.jogo)
 
