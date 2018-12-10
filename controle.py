@@ -51,6 +51,11 @@ class Jogo():
 		#Dicionario que conterá as palavras que ja estão no tabuleiro
 		self.palavras = {}
 
+		#Dicionario que contem o valor de cada letra separadamente
+		self.valores={'a':1,'b':3,'c':2,'d':2,'e':1,'f':4,'g':4,'h':4,'i':1,'j':5,'l':2,
+		'm':1,'n':3,'o':1,'p':2,'q':6,'r':1,'s':1,'t':1,'u':1,'v':4,'x':8,
+		'z':8,'ç':3,'_':0}
+
 
 	#Função que retorna de forma humana dados basicos do jogo
 	def __str__(self):
@@ -539,6 +544,7 @@ class Jogo():
 			return 0
 
 
+	#Função auxiliar utilizadas para mais facilmente fazer-se testes
 	def inputWord2(self,line,col,word,direcao):
 
 		for i in range(0,len(word)):
@@ -659,6 +665,48 @@ class Jogo():
 		return self.packletters[self.playerAtual]
 
 
+	#Funcao que calcula os pontos de uma palavra de acordo com o tabuleiro e peso das letras e multiplicadores
+	def calculapontos(self, word, lin, col, direcao):
+		
+		pontuacaoPalavra = 0
+		multiplicadorPalavra = 1
+		#Itera a palavra
+		for i in range(len(word)):
+			#Direcao na vertical
+			if direcao=='V':
+
+				if self.matriz[lin+i][col]=='':
+					pontuacaoPalavra += self.valores[word[i]]
+				elif self.matriz[lin+i][col]=='DL':
+					pontuacaoPalavra += self.valores[word[i]]*2
+				elif self.matriz[lin+i][col]=='TL':
+					pontuacaoPalavra += self.valores[word[i]]*3
+				elif self.matriz[lin+i][col]=='DP' or self.matriz[lin+i][col]=='*':
+					multiplicadorPalavra *= 2
+				elif self.matriz[lin+i][col]=='TP':
+					multiplicadorPalavra *= 3
+				else:
+					pontuacaoPalavra += self.valores[word[i]]
+
+			#Direcao na horizontal
+			else:
+
+				if self.matriz[lin][col+i]=='':
+					pontuacaoPalavra += self.valores[word[i]]
+				elif self.matriz[lin][col+i]=='DL':
+					pontuacaoPalavra += self.valores[word[i]]*2
+				elif self.matriz[lin][col+i]=='TL':
+					pontuacaoPalavra += self.valores[word[i]]*3
+				elif self.matriz[lin][col+i]=='DP' or self.matriz[lin][col+i]=='*':
+					multiplicadorPalavra *= 2
+				elif self.matriz[lin][col+i]=='TP':
+					multiplicadorPalavra *= 3
+				else:
+					pontuacaoPalavra += self.valores[word[i]]
+
+		return pontuacaoPalavra*multiplicadorPalavra
+
+
 	#Função que incrementará a quantidade de pontos de um determinado player
 	def addPoints(self,qtd):
 
@@ -677,3 +725,4 @@ class Jogo():
 			self.playerAtual = 1
 		else:
 			self.playerAtual = 0
+
