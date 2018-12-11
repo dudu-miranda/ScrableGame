@@ -25,17 +25,14 @@ class IA(object):
         if limit == 0 or len(saquinho) == 0:
             return []
 
-
-        saq = copy.deepcopy(saquinho)
-        # saq = saquinho
+        saq     = copy.deepcopy(saquinho)
         limite  = copy.deepcopy(limit)
-
 
         #caso de primeira chamada absoluta
         if (noTree is None):
             # no = copy.deepcopy(self.tree.raiz)
             self.palavras = []
-            no = (self.tree.raiz)
+            no     = (self.tree.raiz)
             noTree = (self.tree.raiz)
             # caminha na arvore e deixa o no com a palavra de entrada na primeira recursão
             if direcao == 1:
@@ -43,7 +40,6 @@ class IA(object):
                     no = no.connections[i]
         else:
             no = (noTree)
-            # no = noTree
 
         if direcao == 0:
             lista = self.montaPalavra("",1,limite,saq,bool=True,bool2=True)
@@ -59,36 +55,52 @@ class IA(object):
                         existPalavra = False
                         break;
                     no = no.connections[j]
-                if no.final and existPalavra:
+                if (no.final or bool2)and existPalavra:
                     lista2.append((str, lenI))
 
             return lista2
 
         limite -= 1
         str = copy.deepcopy(string)
+
         if direcao == 1:
             atual    = (no)
             contador = 0
-            while(contador!=len(saq)):
-                no  = (atual)
-                str = str+saq[0]
-                contador += 1
+            lenSaq   = len(saq)
+            while(contador!=lenSaq):
+                if saq[0] == '_':
+                     lpop = saq.pop(0)
+                     for i in atual.connections:
+                         no   = no.connections[i]
+                         str  = str+i.upper()
+                         self.montaPalavra(str,direcao,limite,saq,no,False,bool2)
+                         if (no.final or bool2) and str not in self.palavras:
+                             self.palavras.append(str)
+                         str  = str[:len(str)-1]
+                         no   = (atual)
+                     saq  = saq+[lpop]
+                     contador += 1
+                     continue
+
                 if no.checkConection(saq[0]):
+                    str  = str+saq[0]
                     no   = no.connections[saq[0]]
                     lpop = saq.pop(0)
                     self.montaPalavra(str,direcao,limite,saq,no,False,bool2)
-                    saq  = saq + [lpop]
+                    saq  = saq+[lpop]
                     if (no.final or bool2) and str not in self.palavras:
                         self.palavras.append(str)
+                    str  = str[:len(str)-1]
+                    no   = (atual)
                 else:
                     lpop = saq.pop(0)
-                    saq  = saq + [lpop]
-                str = str[:len(str)-1]
+                    saq  = saq+[lpop]
+                contador += 1
 
             list = []
             if bool:
-                for i in range(len(self.palavras)):
-                    list.append((self.palavras[i], 0))
+                for i in self.palavras:
+                    list.append((i, 0))
             return list
 
 
@@ -104,8 +116,7 @@ class IA(object):
 
             #c=[("str", "D" ,X ,Y ,ec ,bd )]
             lista = self.montaPalavra(tupla[0], 0, tupla[4], saquinho)
-            lista.extend(self.montaPalavra(tupla[0], 1, tupla[5], saquinho))
-
+            lista.extend(self.montaPalavra(tupla[0], 1, tupla[5], saquinho, bool=True))
 
             for elemento in lista:
                 if tupla[1]=='V':
@@ -424,11 +435,18 @@ j = Jogo()
 ia = IA(j)
 
 #ia.jogo.matriz[7][7] = '*'
-ia.jogo.inputWord2(5,4,'palavra','H')
+ia.jogo.inputWord2(5,4,'palavras','H')
 ia.jogo.inputWord2(5,5,'azul','V')
-ia.jogo.inputWord2(5,7,'aves','V')
+ia.jogo.inputWord2(5,7,'ave','V')
 ia.jogo.matriz[7][7]=' *'
 ia.jogo.inicio=False
+
+# j.packletters[0][0]='_'
+# j.packletters[0][1]='e'
+# j.packletters[0][2]='s'
+j.packletters[0][3]='_'
+# j.packletters[0][4]='_'
+# j.packletters[0][5]='_'
 
 print(ia.jogo)
 
@@ -438,6 +456,11 @@ print(ia.jogo)
 #def calculapontos(self, word, lin, col, direcao):
 #print(ia.jogo)
 #print(ia.jogo.calculapontos('palavra',5,4,'H'))
-
 print(ia.permutation(j.packletters[0]))
 #print(ia.getreadwords(ia.jogo.matriz))
+
+# l = ia.montaPalavra("s",1,7,['a','_','_','g','i','r','l'],bool=1)
+# print(l)
+# print()
+# l = ia.montaPalavra("s",1,10,['a','_'],bool=1)
+# print(l)
