@@ -1,0 +1,36 @@
+49660050 function calls (46322295 primitive calls) in 41.257 seconds
+
+Ordered by: cumulative time
+List reduced from 81 to 30 due to restriction <30>
+
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+1    7.881    7.881   37.590   37.590 {built-in method exec_}
+34    0.001    0.000   29.710    0.874 interface.py:165(clickbotao_addWord)
+33    0.066    0.002   29.695    0.900 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/IA.py:110(permutation)
+913266/16787   20.746    0.000   29.515    0.002 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/IA.py:22(montaPalavra)
+4804099/2362823    3.703    0.000    7.061    0.000 /usr/lib/python3.7/copy.py:132(deepcopy)
+1    0.000    0.000    3.638    3.638 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/controle.py:13(__init__)
+1    1.799    1.799    3.638    3.638 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/tree.py:13(montaTree)
+747271    0.973    0.000    3.626    0.000 /usr/lib/python3.7/copy.py:210(_deepcopy_list)
+6906813    1.139    0.000    1.139    0.000 {method 'keys' of 'dict' objects}
+2913885    0.811    0.000    1.078    0.000 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/node.py:27(checkConection)
+9608198    0.838    0.000    0.838    0.000 {method 'get' of 'dict' objects}
+747271    0.556    0.000    0.658    0.000 /usr/lib/python3.7/copy.py:252(_keep_alive)
+637150    0.649    0.000    0.649    0.000 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/node.py:6(__init__)
+7045912    0.509    0.000    0.509    0.000 {built-in method builtins.id}
+2433426    0.319    0.000    0.319    0.000 {method 'pop' of 'list' objects}
+3592500    0.296    0.000    0.296    0.000 {built-in method builtins.len}
+4056828    0.282    0.000    0.282    0.000 /usr/lib/python3.7/copy.py:190(_deepcopy_atomic)
+2804974    0.230    0.000    0.230    0.000 {method 'append' of 'list' objects}
+1274298    0.190    0.000    0.190    0.000 {method 'update' of 'dict' objects}
+1082532    0.122    0.000    0.122    0.000 {method 'upper' of 'str' objects}
+27808    0.055    0.000    0.056    0.000 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/controle.py:685(calculapontos)
+33    0.008    0.000    0.045    0.001 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/IA.py:434(getreadwords)
+3532    0.028    0.000    0.036    0.000 /run/media/rats/eda3fd9b-ac40-47ff-84aa-792e70e9c23b/home/rats/Documentos/IFMG/trabalhoPAA/IA.py:168(geraTupla)
+1    0.012    0.012    0.018    0.018 interface.py:49(iniciaComponentes)
+1    0.011    0.011    0.011    0.011 {built-in method show}
+35    0.000    0.000    0.008    0.000 interface.py:304(alteraContexto)
+33    0.000    0.000    0.008    0.000 interface.py:298(passaVez)
+70    0.007    0.000    0.007    0.000 {built-in method setStyleSheet}
+39338    0.007    0.000    0.007    0.000 {method 'remove' of 'list' objects}
+537    0.001    0.000    0.004    0.000 /usr/lib/python3.7/codecs.py:319(decode)
