@@ -168,7 +168,28 @@ class MirandasWindow(QWidget):
 		if(self.jogo.finalJogo):
 			self.p.disable()
 			pstats.Stats(self.p).sort_stats('cumulative').print_stats(30)
-			exit()
+
+			string = "VITORIA "
+
+			print(str(self.jogo.points1))
+			print(str(self.jogo.points2))
+
+
+			if self.jogo.points1 > self.jogo.points2:
+				if self.estilo == 2:
+					string += "DA CPU UM !"
+				else:
+					string += "DO JOGADOR UM !"
+			elif self.jogo.points1 < self.jogo.points2:
+				if self.estilo == 0:
+					string += "DO JOGADOR UM !"
+				else:
+					string += "DA CPU DOIS !"
+			else:
+				string = "EMPATE DOS JOGADORES !!"
+
+			QMessageBox.about(self, "FIM DE JOGO", string)
+			return
 
 		row,col,word,direcao = 0,0,'',''
 		#Caso do jogador
@@ -306,9 +327,11 @@ class MirandasWindow(QWidget):
 	#Função que adiciona pontos na pontuação de determinado jogador
 	def addPonts(self,pontos):
 		if(self.playerAtual==0):
-			self.label1Pts.setNum(int(self.label1Pts.text())+pontos)
+			self.jogo.points1 += pontos
+			self.label1Pts.setNum(self.jogo.points1)
 		else:
-			self.label2Pts.setNum(int(self.label2Pts.text())+pontos)
+			self.jogo.points2 += pontos
+			self.label2Pts.setNum(self.jogo.points2)
 
 
 	#Função que seta as letras iniciais para que o tabuleiro fique igual ao do scrabble

@@ -139,7 +139,6 @@ class IA(object):
 
                 lista3 = self.montaPalavra(i[0], 1, tupla[5], saquinho, bool=True)
                 for j in lista3:
-                    print((j[0],i[1]))
                     lista.append((j[0],i[1]))
                 saquinho.extend(aux)
 
@@ -160,6 +159,8 @@ class IA(object):
                         #row,col,word,direcao
                         palavraFinal = (tupla[2]+1 ,tupla[3]-elemento[1]+1 , elemento[0], "H")
 
+        if self.jogo.inicio and palavraFinal[1] == 1:
+            palavraFinal = (palavraFinal[0],palavraFinal[1]+1,palavraFinal[2],palavraFinal[3])
         return palavraFinal
 
 
