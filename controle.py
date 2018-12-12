@@ -47,6 +47,11 @@ class Jogo():
 
 		#Variavel que dirá se o jogo está no inicio que consequentemente a palavra tem que passar no meio do mapa
 		self.inicio = True
+		#Variavel de fim de jogo
+		self.finalJogo = False
+
+		#contador para uso na verificação de fim de jogo
+		self.contador = 0
 
 		#Dicionario que conterá as palavras que ja estão no tabuleiro
 		self.palavras = {}
@@ -525,6 +530,19 @@ class Jogo():
 		return 1
 
 
+	#Função que verifica propriedades de fim de jogo
+	def checkFinalJogo(self, str):
+		if len(str)==0:
+			self.contador += 1
+		else:
+			self.contador = 0
+
+		if self.contador == 4:
+			self.finalJogo = True
+
+		if not self.packletters[0] and not self.packletters[1] and not self.lettersPack:
+			self.finalJogo = True
+
 	#Função para calcular o ponto de uma letra na matriz
 	def calculaPtsAtual(self,letra):
 
@@ -593,7 +611,6 @@ class Jogo():
 					#Caso de gastar um coringa
 					else:
 						self.packletters[player].pop(self.packletters[player].index('_'))
-						pontos += self.calculaPtsAtual('_')
 						self.matriz[line+i-1][col-1] = word[i]
 						palavraFinal += word[i].upper()
 						continue
@@ -613,7 +630,6 @@ class Jogo():
 					#Caso de gastar um coringa
 					else:
 						self.packletters[player].pop(self.packletters[player].index('_'))
-						pontos += self.calculaPtsAtual('_')
 						self.matriz[line-1][col-1+i] = word[i]
 						palavraFinal += word[i].upper()
 						continue
@@ -622,9 +638,9 @@ class Jogo():
 
 			#Calcula a quantidade de pontos a ser adicionada
 			palavraFinal += word[i]
-			pontos += self.calculaPtsAtual(word[i])
 
 		self.atualizaSaquinho()
+		pontos = self.calculapontos(word, line-1, col-1, direcao)
 		self.palavras[(line-1, col-1, direcao)] = word
 
 		return pontos,palavraFinal

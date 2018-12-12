@@ -38,12 +38,9 @@ class MirandasWindow(QWidget):
 		self.alteraContexto()
 		self.alteraContexto()
 
-		self.condicao = True
-		self.contador = 0
-
 		self.ia1 = IA(self.jogo)
 		self.ia2 = IA(self.jogo)
-			
+
 		#print(self.jogo.packletters[self.playerAtual])
 		#self.labelLetras.setText(letrasIniciais)
 
@@ -96,7 +93,7 @@ class MirandasWindow(QWidget):
 		self.setaLetrasIniciais()
 		self.tabela_matriz.resizeColumnsToContents()
 		self.tabela_matriz.resizeRowsToContents()
-		
+
 		#Configuração do label das letras disponíveis
 		self.labelDisponiveis = QLabel('Letras disponíveis:')
 		self.labelLetras = QLabel('')
@@ -115,8 +112,8 @@ class MirandasWindow(QWidget):
 		#self.botaoPassaVez.clicked.connect(self.clickbotao_passaVez)
 
 		#Configuração dos layouts
-		main_layout = QVBoxLayout()		
-		
+		main_layout = QVBoxLayout()
+
 		# Header
 		layout = QHBoxLayout()
 		layout.addWidget(self.label1)
@@ -124,25 +121,25 @@ class MirandasWindow(QWidget):
 		layout.addStretch()
 		layout.addWidget(self.label2)
 		layout.addWidget(self.label2Pts)
-		
+
 		main_layout.addLayout(layout)
-		
+
 		# Main Vision
 		layout = QHBoxLayout()
 		layout.addWidget(self.tabela_matriz)
 		l = QVBoxLayout()
 		l.addWidget(self.labelDisponiveis)
 		l.addWidget(self.labelLetras)
-		
+
 		l1 = QHBoxLayout()
 		l1.addWidget(self.editTroca)
 		l1.addWidget(self.botaoTrocaLetras)
 		l1.addWidget(self.botaoPassaVez)
 		l.addLayout(l1)
 		layout.addLayout(l)
-		
+
 		main_layout.addLayout(layout)
-		
+
 		# Footer
 		layout = QVBoxLayout()
 		l = QHBoxLayout()
@@ -156,7 +153,7 @@ class MirandasWindow(QWidget):
 		l.addWidget(self.editWord)
 		layout.addLayout(l)
 		layout.addWidget(self.botaoAddWord)
-		
+
 		main_layout.addLayout(layout)
 
 		#Input do layout completo
@@ -167,8 +164,8 @@ class MirandasWindow(QWidget):
 	#Ação do botão que adicionará uma palavra na matriz
 	@pyqtSlot()
 	def clickbotao_addWord(self):
-	
-		if(self.contador > 9):
+
+		if(self.jogo.finalJogo):
 			self.p.disable()
 			pstats.Stats(self.p).sort_stats('cumulative').print_stats(30)
 			exit()
@@ -194,7 +191,7 @@ class MirandasWindow(QWidget):
 				direcao=self.comboDir.currentText()
 			#Jogada da IA
 			else:
-				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				row,col,word,direcao = self.ia1.permutation(self.jogo.packletters[1])
 				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
 				#Chamar troca de letra
 
@@ -202,16 +199,17 @@ class MirandasWindow(QWidget):
 		else:
 			#Jogada da IA1
 			if self.playerAtual==0:
-				row,col,word,direcao = self.ia1.permutation(self.jogo.matriz,self.jogo.packletters[0])
+				row,col,word,direcao = self.ia1.permutation(self.jogo.packletters[0])
 				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
 				#Chamar troca de letra
 			#Jogada da IA2
 			else:
-				row,col,word,direcao = self.ia2.permutation(self.jogo.matriz,self.jogo.packletters[1])
+				row,col,word,direcao = self.ia2.permutation(self.jogo.packletters[1])
 				print ('saindo '+str(row)+' '+str(col)+' '+word+' '+direcao)
 				#Chamar troca de letra
 
 		#Caso a IA queira passar a vez ele mandará uma string vazia que também serve para o jogador
+		self.jogo.checkFinalJogo(word)
 		if word=='':
 			if(self.estilo == 2):
 				self.clickbotao_trocaLetra(self.jogo.packletters[self.jogo.playerAtual])
@@ -221,33 +219,30 @@ class MirandasWindow(QWidget):
 
 			else:
 				self.passaVez()
-			
+
 			return 1
 
 		#Faz a checagem de erros
-		res = self.jogo.checkWord(row,col,word,direcao)
+		if self.estilo != 2 or (self.estilo == 1 and self.playerAtual == 0):
+			res = self.jogo.checkWord(row,col,word,direcao)
 
-		if(res!=1):
-			self.printError(res)
-			self.passaVez()
-			return -1
+			if(res!=1):
+				self.printError(res)
+				self.passaVez()
+				return -1
 
 		#Chama a função para calcular os pontos e a palavra final que pode ser modificada caso use-se um coringa
 		pontos,palavra = self.jogo.inputWord(row,col,word,direcao)
 		#Chama a função para colocar a palavra na matriz
-		self.inputWord(row,col,palavra,direcao)	
+		self.inputWord(row,col,palavra,direcao)
+
+		self.jogo.inicio = False
 		#Chama a função de adicionar a pontuação
-		self.addPonts(pontos)		
-		#Chamará a troca de contexto na interface e no backend	
+		self.addPonts(pontos)
+		#Chamará a troca de contexto na interface e no backend
 		self.passaVez()
-		self.contador +=1
 
-		#Caso de ser player VS IA para a IA jogar sozinha
-		if(self.estilo==1):
-			if(self.playerAtual==1):
-				self.clickbotao_addWord()
 
-	
 	#Ação doo botão que trocara as letras do determinado player
 	@pyqtSlot()
 	def clickbotao_trocaLetra(self, letrasAntigas=[]):
@@ -255,7 +250,7 @@ class MirandasWindow(QWidget):
 		if( (self.estilo == 0) or (self.playerAtual==0 and self.estilo == 1) ):
 			#Pega as letras do edit, da um split para que se transforme em uma lista
 			letrasAntigas = self.editTroca.text().split(',')
-		
+
 		#Chama a função de trocar letras
 		listaNovasLetras = self.jogo.exchangeLetters(letrasAntigas)
 
@@ -286,7 +281,7 @@ class MirandasWindow(QWidget):
 
 	#Função que fará a transição de jogadas entre o jogador 1 e 2
 	def alteraContexto(self):
-		
+
 		if(self.playerAtual==0):
 			self.label1.setStyleSheet("QLabel { background-color : lightgray; color : black; }")
 			self.label2.setStyleSheet("QLabel { background-color : lightgreen; color : black; }")

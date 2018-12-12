@@ -6,7 +6,7 @@ from node import Node
 
 class Tree():
 
-	def __init__(self):	
+	def __init__(self):
 		self.raiz = Node(False,' ')
 
 
@@ -40,11 +40,15 @@ class Tree():
 
 					#self.__tabelasimbolo[bloco].update({chave: tipo})
 					if(i==len(palavra)-2):
-						noAtual.connections.update({letra: Node(True,letra)})
+						no = Node(True,letra)
+						noAtual.connections.update({letra: no})
+						noAtual.connections.update({letra.upper(): no})
 					else:
-						noAtual.connections.update({letra: Node(False,letra)})
+						no = Node(False,letra)
+						noAtual.connections.update({letra: no})
+						noAtual.connections.update({letra.upper(): no})
 						noAtual = noAtual.connections[letra]
-															
+
 
 		Arq.close()
 
@@ -59,7 +63,7 @@ class Tree():
 
 			#Itera as conexões do nó atual
 			existe = False
-			
+
 			if letra in noAtual.connections.keys():
 				noAtual = noAtual.connections[letra]
 				existe = True
@@ -67,7 +71,6 @@ class Tree():
 			#Caso da palavra digitada não existir na árvore
 			if(not existe):
 				return False
-			
+
 			if(i==len(word)-1):
 				return noAtual.final
-
