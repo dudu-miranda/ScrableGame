@@ -24,7 +24,7 @@ class Jogo():
 
 		#Lista que contem as letras disponiveis
 		self.lettersPack = []
-		#Monta o saquinho das letras 
+		#Monta o saquinho das letras
 		self.montaSaquinho()
 
 		#Listas que contém as letras de cada jogador
@@ -44,7 +44,7 @@ class Jogo():
 
 		#Variavel que controlará o player atual que está jogando
 		self.playerAtual = self.turno
-		
+
 		#Variavel que dirá se o jogo está no inicio que consequentemente a palavra tem que passar no meio do mapa
 		self.inicio = True
 
@@ -54,7 +54,9 @@ class Jogo():
 		#Dicionario que contem o valor de cada letra separadamente
 		self.valores={'a':1,'b':3,'c':2,'d':2,'e':1,'f':4,'g':4,'h':4,'i':1,'j':5,'l':2,
 		'm':1,'n':3,'o':1,'p':2,'q':6,'r':1,'s':1,'t':1,'u':1,'v':4,'x':8,
-		'z':8,'ç':3,'_':0}
+		'z':8,'ç':3,'A':0,'B':0,'C':0,'D':0,'E':0,'F':0,'G':0,'H':0,'I':0,'J':0,'L':0,
+		'M':0,'N':0,'O':0,'P':0,'Q':0,'R':0,'S':0,'T':0,'U':0,'V':0,'X':0,
+		'Z':0,'Ç':0}
 
 
 	#Função que retorna de forma humana dados basicos do jogo
@@ -64,7 +66,7 @@ class Jogo():
 		for i in self.packletters[0]:
 			string += i +' '
 		string += '\n'
-		
+
 		string += 'Letras jogador 2: '
 		for i in self.packletters[1]:
 			string += i +' '
@@ -75,7 +77,7 @@ class Jogo():
 
 			string += '|'
 			for elem in linha:
-				
+
 				if len(elem)==0:
 					string+='  |'
 				elif len(elem)==1:
@@ -98,7 +100,7 @@ class Jogo():
 				self.matriz[i].append('')
 
 		self.matriz[7][7]='*'
-		
+
 		for i in range(0,15,7):
 			for j in range(0,15,7):
 				if(not(i==7==j)):
@@ -143,8 +145,8 @@ class Jogo():
 
 	#Função que monta o saquinho de letras disponiveis
 	def montaSaquinho(self):
-		self.lettersPack =  ['a']*14 + ['e']*11 + ['i']*10 + ['o']*10 + ['s']*8 + ['u']*7 + ['m']*6 
-		self.lettersPack += ['r']*6 + ['t']*5 + ['d']*5 + ['l']*5 + ['c']*4 + ['p']*4 + ['n']*4 
+		self.lettersPack =  ['a']*14 + ['e']*11 + ['i']*10 + ['o']*10 + ['s']*8 + ['u']*7 + ['m']*6
+		self.lettersPack += ['r']*6 + ['t']*5 + ['d']*5 + ['l']*5 + ['c']*4 + ['p']*4 + ['n']*4
 		self.lettersPack += ['b']*3 + ['ç']*2 + ['f']*2 + ['g']*2 + ['h']*2 + ['v']*2 + ['j']*2
 		self.lettersPack += ['q']*1 + ['x']*1 + ['z']*1 + ['_']*3
 		#Embaralha o pacote que contém todas as letras
@@ -169,7 +171,7 @@ class Jogo():
 		#Checa se a palavra passada existe no dicionário (OK)
 		if(not self.dicionario.checkWordExistence(word)):
 			return enumError.er_inWordInexist
-		
+
 
 		#Checagem do turno inicial se a palavra inserida passa no meio do mapa (OK)
 		if(self.inicio):
@@ -186,7 +188,7 @@ class Jogo():
 
 
 		#Checagem se a palavra inserida utiliza ao menos uma das letras do tabuleiro (OK)
-		else:	
+		else:
 			utiliza = False
 			for i in range(0,len(word)):
 				if(direcao=='V'):
@@ -203,7 +205,7 @@ class Jogo():
 			if not utiliza:
 				return enumError.er_inWordNotTableUsed
 
-		
+
 		#Checagem se é possível de se encaixar esta palavra na matriz
 		#E para verificação se foi utilizada ao menos uma letra do saquinho
 		temp = []
@@ -222,7 +224,7 @@ class Jogo():
 						return enumError.er_inWordNotPossibleIn
 				else:
 
-					#Caso a letra não esteja no pacote de letras do player 
+					#Caso a letra não esteja no pacote de letras do player
 					if(word[i] not in self.packletters[player]):
 						#Caso o player não tenha a letra atual e não possua o coringa
 						if('_' not in self.packletters[player]):
@@ -262,7 +264,7 @@ class Jogo():
 
 		#Une-se as listas novamente
 		self.packletters[player].extend(temp)
-		
+
 
 
 		#Checagem para verificar se a nova palavra adicionada na matriz não atrapalhou nenhuma outra palavra ja existente
@@ -276,7 +278,7 @@ class Jogo():
 					if(len(self.matriz[line+i-1][col])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a direita para a verificação de existencia 
+						#Percorre a palavra adjacente a direita para a verificação de existencia
 						j=0
 						while j+col!=15 and len(self.matriz[line+i-1][col+j])==1:
 							palavra+=self.matriz[line+i-1][col+j]
@@ -293,7 +295,7 @@ class Jogo():
 					if(len(self.matriz[line+i-1][col-2])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a esquerda para a verificação de existencia 
+						#Percorre a palavra adjacente a esquerda para a verificação de existencia
 						j=0
 						while col-j!=-1 and len(self.matriz[line+i-1][col-2-j])==1:
 							palavra+=self.matriz[line+i-1][col-2-j]
@@ -312,7 +314,7 @@ class Jogo():
 					if(len(self.matriz[line+i-1][col-2])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a esquerda para a concatenacao 
+						#Percorre a palavra adjacente a esquerda para a concatenacao
 						j=0
 						while col-j!=-1 and len(self.matriz[line+i-1][col-2-j])==1:
 							palavra+=self.matriz[line+i-1][col-2-j]
@@ -354,9 +356,9 @@ class Jogo():
 				fim = len(word)
 				palavra = word
 				if(fim<15 and len(self.matriz[fim][col-1])==1):
-					
+
 					j=0
-					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas' 
+					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas'
 					while j+fim!=15 and len(self.matriz[fim+j][col-1])==1:
 						palavra+=self.matriz[fim+j][col-1]
 						j+=1
@@ -382,7 +384,7 @@ class Jogo():
 				if(fim<15 and len(self.matriz[fim][col-1])==1):
 
 					j=0
-					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas' 
+					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas'
 					while j+fim!=15 and len(self.matriz[fim+j][col-1])==1:
 						palavra+=self.matriz[fim+j][col-1]
 						j+=1
@@ -394,7 +396,7 @@ class Jogo():
 
 		#Caso seja na horizontal
 		else:
-	
+
 			for i in range(0,len(word)):
 
 				#A palavra esta colada no canto superior
@@ -403,7 +405,7 @@ class Jogo():
 					if(len(self.matriz[line][col+i-1])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a direita para a verificação de existencia 
+						#Percorre a palavra adjacente a direita para a verificação de existencia
 						j=0
 						while j+line!=15 and len(self.matriz[line+j][col+i-1])==1:
 							palavra+=self.matriz[line+j][col+i-1]
@@ -420,7 +422,7 @@ class Jogo():
 					if(len(self.matriz[line-2][col+i-1])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a esquerda para a verificação de existencia 
+						#Percorre a palavra adjacente a esquerda para a verificação de existencia
 						j=0
 						while line-j!=-1 and len(self.matriz[line-2-j][col+i-1])==1:
 							palavra+=self.matriz[line-2-j][col+i-1]
@@ -439,7 +441,7 @@ class Jogo():
 					if(len(self.matriz[line-2][col+i-1])==1):
 						palavra = ''
 						palavra+=word[i]
-						#Percorre a palavra adjacente a esquerda para a concatenacao 
+						#Percorre a palavra adjacente a esquerda para a concatenacao
 						j=0
 						while line-j!=-1 and len(self.matriz[line-2-j][col+i-1])==1:
 							palavra+=self.matriz[line-2-j][col+i-1]
@@ -481,9 +483,9 @@ class Jogo():
 				fim = len(word)
 				palavra = word
 				if(fim<15 and len(self.matriz[line-1][fim])==1):
-					
+
 					j=0
-					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas' 
+					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas'
 					while j+fim!=15 and len(self.matriz[line-1][fim+j])==1:
 						palavra+=self.matriz[line-1][fim+j]
 						j+=1
@@ -509,7 +511,7 @@ class Jogo():
 				if(fim<15 and len(self.matriz[col-1][fim])==1):
 
 					j=0
-					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas' 
+					#Percorre-se o que está abaixo da palavra para ver se há letras 'soltas'
 					while j+fim!=15 and len(self.matriz[col-1][fim+j])==1:
 						palavra+=self.matriz[col-1][fim+j]
 						j+=1
@@ -551,7 +553,7 @@ class Jogo():
 			if(direcao=='V'):
 				#self.matriz[line+i-1][col-1] = word[i]
 
-				#Caso da letra a ser adicionada ja esta na matriz				
+				#Caso da letra a ser adicionada ja esta na matriz
 				if self.matriz[line+i-1][col-1]==word[i]:
 					pass
 
@@ -562,7 +564,7 @@ class Jogo():
 				#Caso a letra a ser adicionada ja esta na matriz
 				if self.matriz[line-1][col+i-1]==word[i]:
 					pass
-			
+
 				self.matriz[line-1][col-1+i] = word[i]
 
 		self.palavras[(line-1, col-1, direcao)] = word
@@ -580,7 +582,7 @@ class Jogo():
 			if(direcao=='V'):
 				#self.matriz[line+i-1][col-1] = word[i]
 
-				#Caso da letra a ser adicionada ja esta na matriz				
+				#Caso da letra a ser adicionada ja esta na matriz
 				if self.matriz[line+i-1][col-1]==word[i]:
 					pass
 				#Caso contrario vai ter que gastar do saquinho do player
@@ -593,9 +595,9 @@ class Jogo():
 						self.packletters[player].pop(self.packletters[player].index('_'))
 						pontos += self.calculaPtsAtual('_')
 						self.matriz[line+i-1][col-1] = word[i]
-						palavraFinal += word[i].upper()						
+						palavraFinal += word[i].upper()
 						continue
-			
+
 				self.matriz[line+i-1][col-1] = word[i]
 
 			else:
@@ -604,7 +606,7 @@ class Jogo():
 				if self.matriz[line-1][col+i-1]==word[i]:
 					pass
 				#Caso contrario vai ter que gastar do saquinho do player
-				else:					
+				else:
 					#Caso de gastar a letra normal
 					if(word[i] in self.packletters[player]):
 						self.packletters[player].pop(self.packletters[player].index(word[i]))
@@ -613,14 +615,14 @@ class Jogo():
 						self.packletters[player].pop(self.packletters[player].index('_'))
 						pontos += self.calculaPtsAtual('_')
 						self.matriz[line-1][col-1+i] = word[i]
-						palavraFinal += word[i].upper()	
+						palavraFinal += word[i].upper()
 						continue
-			
+
 				self.matriz[line-1][col-1+i] = word[i]
-			
+
 			#Calcula a quantidade de pontos a ser adicionada
 			palavraFinal += word[i]
-			pontos += self.calculaPtsAtual(word[i])	
+			pontos += self.calculaPtsAtual(word[i])
 
 		self.atualizaSaquinho()
 		self.palavras[(line-1, col-1, direcao)] = word
@@ -655,7 +657,7 @@ class Jogo():
 			#Caso nao esteja retorna erro de letra nao encontrada
 			else:
 				self.packletters.extend(temp)
-				return enumError.er_exchLetterNotFound	
+				return enumError.er_exchLetterNotFound
 
 		self.atualizaSaquinho()
 
@@ -667,7 +669,7 @@ class Jogo():
 
 	#Funcao que calcula os pontos de uma palavra de acordo com o tabuleiro e peso das letras e multiplicadores
 	def calculapontos(self, word, lin, col, direcao):
-		
+
 		pontuacaoPalavra = 0
 		multiplicadorPalavra = 1
 		#Itera a palavra
@@ -725,4 +727,3 @@ class Jogo():
 			self.playerAtual = 1
 		else:
 			self.playerAtual = 0
-

@@ -3,6 +3,8 @@
 
 import os
 import copy
+import cProfile as profile
+import pstats
 
 from itertools  import permutations as permut
 from tree       import *
@@ -117,6 +119,23 @@ class IA(object):
             #c=[("str", "D" ,X ,Y ,ec ,bd )]
             lista = self.montaPalavra(tupla[0], 0, tupla[4], saquinho)
             lista.extend(self.montaPalavra(tupla[0], 1, tupla[5], saquinho, bool=True))
+
+            lista2 = self.montaPalavra(tupla[0], 0, tupla[4], saquinho, bool2=True)
+
+
+            for i in lista2:
+                aux = []
+                # percorre o deslocamento pegando as letras usadas do saquinho
+                # remove elas e adiciona em aux
+                for j in range(i[1]):
+                    aux.append(i[0][j])
+                    saquinho.remove(i[0][j])
+                lista3 = self.montaPalavra(i[0], 1, tupla[5], saquinho, bool=True)
+                for j in lista3:
+                    print((j[0],i[1]))
+                    lista.append((j[0],i[1]))
+                saquinho.extend(aux)
+
 
             for elemento in lista:
                 if tupla[1]=='V':
@@ -435,18 +454,19 @@ j = Jogo()
 ia = IA(j)
 
 #ia.jogo.matriz[7][7] = '*'
-ia.jogo.inputWord2(5,4,'palavras','H')
-ia.jogo.inputWord2(5,5,'azul','V')
-ia.jogo.inputWord2(5,7,'ave','V')
-ia.jogo.matriz[7][7]=' *'
+# ia.jogo.inputWord2(5,4,'palavra','H')
+# ia.jogo.inputWord2(5,5,'azul','V')
+ia.jogo.inputWord2(5,7,'ve','V')
+ia.jogo.matriz[7][7]='*'
 ia.jogo.inicio=False
 
-# j.packletters[0][0]='_'
-# j.packletters[0][1]='e'
-# j.packletters[0][2]='s'
-j.packletters[0][3]='_'
-# j.packletters[0][4]='_'
-# j.packletters[0][5]='_'
+j.packletters[0][0]='a'
+j.packletters[0][1]='s'
+j.packletters[0][2]='s'
+j.packletters[0][3]='A'
+j.packletters[0][4]='A'
+j.packletters[0][5]='A'
+j.packletters[0][6]='A'
 
 print(ia.jogo)
 
@@ -456,11 +476,20 @@ print(ia.jogo)
 #def calculapontos(self, word, lin, col, direcao):
 #print(ia.jogo)
 #print(ia.jogo.calculapontos('palavra',5,4,'H'))
-print(ia.permutation(j.packletters[0]))
+p = profile.Profile()
+p.enable()
+t = ia.permutation(j.packletters[0])
+ia.jogo.inputWord2(t[0],t[1],t[2],t[3])
+print(t)
+print(ia.jogo)
+p.disable()
+pstats.Stats(p).sort_stats('cumulative').print_stats(30)
+
+exit()
 #print(ia.getreadwords(ia.jogo.matriz))
 
-# l = ia.montaPalavra("s",1,7,['a','_','_','g','i','r','l'],bool=1)
+# l = ia.montaPalavra("ve",0,7,['a','s'],bool2=1)
 # print(l)
 # print()
-# l = ia.montaPalavra("s",1,10,['a','_'],bool=1)
+# l = ia.montaPalavra("s",0,7,['a','_','_','g','i','r','l'],bool2=0)
 # print(l)
