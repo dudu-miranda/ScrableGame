@@ -174,8 +174,8 @@ class Jogo():
 
 
 		#Checa se a palavra passada existe no dicionário (OK)
-		if(not self.dicionario.checkWordExistence(word)):
-			return enumError.er_inWordInexist
+		# if(not self.dicionario.checkWordExistence(word)):
+		# 	return enumError.er_inWordInexist
 
 
 		#Checagem do turno inicial se a palavra inserida passa no meio do mapa (OK)
@@ -290,9 +290,9 @@ class Jogo():
 							j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 1')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 1')
+						# 	return enumError.er_inWordConflict
 
 				#A palavra esta colada no canto direito
 				elif(col==15):
@@ -309,9 +309,9 @@ class Jogo():
 						#Faz a palavra ficar ao contrário já que a mesma foi concatenada ao contrario
 						palavra=palavra[::-1]
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 2')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 2')
+						# 	return enumError.er_inWordConflict
 
 				#A palavra esta em qualquer coluna do tabuleiro
 				else:
@@ -336,9 +336,9 @@ class Jogo():
 								j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 3')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 3')
+						# 	return enumError.er_inWordConflict
 
 					#Caso haja incidencia de estar encostando em uma outra palavra a direita
 					elif(len(self.matriz[line+i-1][col])==1):
@@ -351,9 +351,9 @@ class Jogo():
 							j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 4')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 4')
+						# 	return enumError.er_inWordConflict
 
 			#Caso a palavra esteja encostada na parte superior do tabuleiro
 			if(line==1):
@@ -368,9 +368,9 @@ class Jogo():
 						palavra+=self.matriz[fim+j][col-1]
 						j+=1
 
-				if not self.dicionario.checkWordExistence(palavra):
-					print('Deu erro aqui 5')
-					return enumError.er_inWordConflict
+				# if not self.dicionario.checkWordExistence(palavra):
+				# 	print('Deu erro aqui 5')
+				# 	return enumError.er_inWordConflict
 
 			#Caso esteja em qualquer outra parte das linhas do tabuleiro
 			else:
@@ -394,9 +394,9 @@ class Jogo():
 						palavra+=self.matriz[fim+j][col-1]
 						j+=1
 
-				if not self.dicionario.checkWordExistence(palavra):
-					print('Deu erro aqui 6')
-					return enumError.er_inWordConflict
+				# if not self.dicionario.checkWordExistence(palavra):
+				# 	print('Deu erro aqui 6')
+				# 	return enumError.er_inWordConflict
 
 
 		#Caso seja na horizontal
@@ -417,9 +417,9 @@ class Jogo():
 							j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 1')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 1')
+						# 	return enumError.er_inWordConflict
 
 				#A palavra esta colada no canto inferior
 				elif(line==15):
@@ -436,9 +436,9 @@ class Jogo():
 						#Faz a palavra ficar ao contrário já que a mesma foi concatenada ao contrario
 						palavra=palavra[::-1]
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 2')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 2')
+						# 	return enumError.er_inWordConflict
 
 				#A palavra esta em qualquer linha do tabuleiro
 				else:
@@ -463,9 +463,9 @@ class Jogo():
 								j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 3')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 3')
+						# 	return enumError.er_inWordConflict
 
 					#Caso haja incidencia de estar encostando em uma outra palavra abaixo da mesma
 					elif(len(self.matriz[line][col+i-1])==1):
@@ -478,9 +478,9 @@ class Jogo():
 							j+=1
 
 						#Significa q a palavra encontrada a direita esta no dicionário
-						if not self.dicionario.checkWordExistence(palavra):
-							print('Deu erro aqui 4')
-							return enumError.er_inWordConflict
+						# if not self.dicionario.checkWordExistence(palavra):
+						# 	print('Deu erro aqui 4')
+						# 	return enumError.er_inWordConflict
 
 			#Caso a palavra esteja encostada na parte a esquerda do tabuleiro
 			if(col==1):
@@ -495,9 +495,9 @@ class Jogo():
 						palavra+=self.matriz[line-1][fim+j]
 						j+=1
 
-				if not self.dicionario.checkWordExistence(palavra):
-					print('Deu erro aqui 5')
-					return enumError.er_inWordConflict
+				# if not self.dicionario.checkWordExistence(palavra):
+				# 	print('Deu erro aqui 5')
+				# 	return enumError.er_inWordConflict
 
 			#Caso esteja em qualquer outra parte das colunas do tabuleiro
 			else:
@@ -521,11 +521,9 @@ class Jogo():
 						palavra+=self.matriz[col-1][fim+j]
 						j+=1
 
-				if not self.dicionario.checkWordExistence(palavra):
-					print('Deu erro aqui 6')
-					return enumError.er_inWordConflict
-
-
+				# if not self.dicionario.checkWordExistence(palavra):
+				# 	print('Deu erro aqui 6')
+				# 	return enumError.er_inWordConflict
 
 		return 1
 
