@@ -14,8 +14,8 @@ Autores: Eduardo Gabriel Reis Miranda, Júlio César de Mello Cândido.
 
 Scrabble é um jogo de tabuleiro de palavras cruzadas no qual os jogadores pontuam formando palavras com as palavras já dispostas no tabuleiro além das letras que possuem na mão.
 
-Este trabalho consiste em desenvolver o jogo com suas devidas regras. Além do desenvolvimento do jogo também foi desenvolvida uma inteligência artificial que utiliza métodos de backtrack para a formação das palavras. O método de programação utilizado foi o MVC(Model View Control).
+Este trabalho consiste em desenvolver o jogo com suas devidas regras. Além do desenvolvimento do jogo também foi desenvolvida uma inteligência artificial que utiliza métodos de backtracking para a formação das palavras. O método de programação utilizado foi o MVC(Model View Control).
 
-<h1 align="left"> Objetivo </h1>
+<h1 align="left"> Execução </h1>
 python3 interface.py
 
